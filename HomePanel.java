@@ -26,9 +26,9 @@ public class HomePanel extends JPanel {
         subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         subtitle.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
 
-        JButton learnBtn = new JButton("🧠 Start Learning");
-        JButton quizBtn = new JButton("📝 Take Quiz");
-        JButton scoreBtn = new JButton("📊 View Scores");
+        JButton learnBtn = new JButton("📖 Start Learning");
+        JButton quizBtn = new JButton("💡 Take Quiz");
+        JButton scoreBtn = new JButton("🏆 View Scores");
 
         learnBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         quizBtn.setAlignmentX(Component.CENTER_ALIGNMENT);

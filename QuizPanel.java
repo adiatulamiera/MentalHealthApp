@@ -6,7 +6,7 @@ public class QuizPanel extends JPanel {
     private ScoreManager scoreManager;
     private BadgeSystem badgeSystem;
 
-    private JLabel questionLabel;
+    private JTextArea questionTextArea;
     private JRadioButton[] options;
     private ButtonGroup optionGroup;
     private JButton submitBtn;
@@ -25,10 +25,15 @@ public class QuizPanel extends JPanel {
         scoreManager = new ScoreManager(quizManager.getTotalQuestions());
         badgeSystem = new BadgeSystem();
 
-        questionLabel = new JLabel("Question will appear here");
-        questionLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-        questionLabel.setAlignmentX(CENTER_ALIGNMENT);
-        add(questionLabel);
+        questionTextArea = new JTextArea("Question will appear here");
+        questionTextArea.setFont(new Font("SansSerif", Font.BOLD, 16));
+        questionTextArea.setLineWrap(true);
+        questionTextArea.setWrapStyleWord(true);
+        questionTextArea.setEditable(false);
+        questionTextArea.setOpaque(false);
+        questionTextArea.setAlignmentX(CENTER_ALIGNMENT);
+        questionTextArea.setMaximumSize(new Dimension(500, 100));
+        add(questionTextArea);
 
         add(Box.createVerticalStrut(20));
 
@@ -59,7 +64,7 @@ public class QuizPanel extends JPanel {
         }
 
         Question q = quizManager.getQuestion(quizIndex);
-        questionLabel.setText("Q" + (quizIndex + 1) + ": " + q.getText());
+        questionTextArea.setText("Q" + (quizIndex + 1) + ": " + q.getText());
 
         String[] opts = q.getOptions();
         for (int i = 0; i < options.length; i++) {
@@ -75,24 +80,40 @@ public class QuizPanel extends JPanel {
     }
 
     private void handleSubmit() {
-        String selected = null;
-        for (JRadioButton btn : options) {
-            if (btn.isVisible() && btn.isSelected()) {
-                selected = btn.getText();
-                break;
-            }
+    String selected = null;
+    for (JRadioButton option : options) {
+        if (option.isSelected()) {
+            selected = option.getText();
+            break;
         }
+    }
 
-        if (selected == null) {
-            JOptionPane.showMessageDialog(this, "Please select an answer.");
-            return;
-        }
+    if (selected == null) {
+        JOptionPane.showMessageDialog(this, "❗ Please select an answer before submitting.");
+        return;
+    }
 
-        quizManager.checkAnswer(selected);
+    Question currentQuestion = quizManager.getQuestion(quizIndex);
+    boolean isCorrect = quizManager.checkAnswer(selected);
+
+    if (isCorrect) {
+        JOptionPane.showMessageDialog(this, "✅ Correct!");
         scoreManager.incrementScore();
-        quizIndex++;
+    } else {
+        JOptionPane.showMessageDialog(this,
+            "❌ Incorrect.\nCorrect answer: " + currentQuestion.getAnswer(),
+            "Feedback", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    quizIndex++;
+
+    if (!quizManager.hasMoreQuestions()) {
+        showResults();
+    } else {
         loadQuestion();
     }
+}
+
 
     private void showResults() {
         String userName = JOptionPane.showInputDialog(this, "Enter your name:");

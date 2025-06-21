@@ -2,37 +2,34 @@ import java.util.List;
 
 public class LearningContent {
     public enum Type {
-        TEXT, VIDEO, IMAGE
+        TEXT, IMAGE, VIDEO
     }
 
-    private Type type;
     private String textContent;
     private String videoLink;
     private List<String> imagePaths;
+    private Type type;
 
-    // Constructor for text
+    // Constructor for plain text page
     public LearningContent(String textContent) {
-        this.type = Type.TEXT;
         this.textContent = textContent;
+        this.type = Type.TEXT;
     }
 
-    // Constructor for video
+    // Constructor for text + video link (1-page video entry)
     public LearningContent(String textContent, String videoLink) {
-        this.type = Type.VIDEO;
         this.textContent = textContent;
         this.videoLink = videoLink;
+        this.type = Type.TEXT; // still rendered as a text page
     }
 
-    // Constructor for image-based content
+    // Constructor for image page
     public LearningContent(List<String> imagePaths) {
-        this.type = Type.IMAGE;
         this.imagePaths = imagePaths;
+        this.type = Type.IMAGE;
     }
 
-    public Type getType() {
-        return type;
-    }
-
+    // Getters
     public String getTextContent() {
         return textContent;
     }
@@ -43,5 +40,9 @@ public class LearningContent {
 
     public List<String> getImagePaths() {
         return imagePaths;
+    }
+
+    public Type getType() {
+        return type;
     }
 }

@@ -55,4 +55,9 @@ public class ScoreManager implements ProgressTracker {
     public int getTotal() {
         return total;
     }
+
+    public void reset() {
+    this.score = 0;
+    }
+
 }
