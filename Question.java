@@ -1,3 +1,6 @@
+// Implemented by Amiera
+// Tested by Mifdzal
+
 public class Question {
     private String text;
     private String[] options;

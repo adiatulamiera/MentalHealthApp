@@ -1,11 +1,11 @@
 // Implemented by Amiera
 // Tested by Mifdzal
 
+import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import java.awt.CardLayout; 
+import javax.swing.UIManager; 
 
 public class MainGUI extends JFrame {
     private CardLayout layout;
@@ -27,7 +27,8 @@ public class MainGUI extends JFrame {
         cardPanel.add(new HomePanel(this), "home");
         cardPanel.add(new LearnPanel(this), "learn");
         cardPanel.add(new QuizPanel(this), "quiz");
-        cardPanel.add(new ScorePanel(this), "scores");
+        scorePanel = new ScorePanel(this); // <-- assign to field
+        cardPanel.add(scorePanel, "scores"); // <-- add this instance
 
         setContentPane(cardPanel); // ✅ use the full card panel
         layout.show(cardPanel, "home"); // show first screen

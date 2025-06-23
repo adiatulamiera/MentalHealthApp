@@ -1,3 +1,6 @@
+// Implemented by Amiera
+// Tested by Mifdzal
+
 import java.util.*;
 
 public class QuizManager extends Module implements QuizFunctions {

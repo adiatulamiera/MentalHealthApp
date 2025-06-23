@@ -1,8 +1,10 @@
-import javax.swing.*;
+// Implemented by Amiera
+// Tested by Mifdzal
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.net.URI;
 import java.util.List;
+import javax.swing.*;
 
 public class LearnPanel extends JPanel {
     private LearningModule learningModule;

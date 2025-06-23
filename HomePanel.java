@@ -1,5 +1,8 @@
-import javax.swing.*;
+// Implemented by Mifdzal
+// Tested by Amiera
+
 import java.awt.*;
+import javax.swing.*;
 
 public class HomePanel extends JPanel {
     private MainGUI mainGUI;

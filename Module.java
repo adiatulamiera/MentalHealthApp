@@ -1,3 +1,6 @@
+// Implemented by Mifdzal
+// Tested by Amiera
+
 public abstract class Module {
     protected String title;
     protected int duration; // in minutes

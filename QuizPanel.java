@@ -1,5 +1,8 @@
-import javax.swing.*;
+// Implemented by Amiera
+// Tested by Mifdzal
+
 import java.awt.*;
+import javax.swing.*;
 
 public class QuizPanel extends JPanel {
     private QuizManager quizManager;
@@ -22,7 +25,7 @@ public class QuizPanel extends JPanel {
 
         quizManager = new QuizManager("Mental Health Quiz", 20);
         quizManager.loadContent();
-        scoreManager = new ScoreManager(quizManager.getTotalQuestions());
+        scoreManager = new ScoreManager(quizManager.getTotalQuestions()); // <-- FIXED
         badgeSystem = new BadgeSystem();
 
         questionTextArea = new JTextArea("Question will appear here");
@@ -55,6 +58,11 @@ public class QuizPanel extends JPanel {
         add(submitBtn);
 
         loadQuestion();
+    }
+
+    // Add this getter so ScorePanel can access ScoreManager
+    public ScoreManager getScoreManager() {
+        return scoreManager;
     }
 
     private void loadQuestion() {
@@ -121,16 +129,42 @@ public class QuizPanel extends JPanel {
             scoreManager.saveScore(userName.trim());
         }
 
-        String message = scoreManager.generateMessage();
         int score = scoreManager.getScore();
         int total = scoreManager.getTotal();
+        int percent = (int)((score / (double) total) * 100);
 
-        badgeSystem.setScoreData(score, total);
-        badgeSystem.evaluateBadge();
-        String badge = badgeSystem.getBadge();
+        // Badge as plain text only
+        String badge;
+        if (percent >= 80) badge = "Gold";
+        else if (percent >= 60) badge = "Silver";
+        else if (percent >= 40) badge = "Bronze";
+        else badge = "Encouragement";
+
+        // Message as plain text only (no emoji)
+        String message;
+        if (percent >= 80) message = "Outstanding!";
+        else if (percent >= 60) message = "That's good!";
+        else if (percent >= 40) message = "Good try!";
+        else if (percent >= 20) message = "You can do better!";
+        else message = "Don't give up!";
+
+        // Custom result dialog (not the same as view score)
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(new JLabel("🎉 Quiz Complete!"));
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(new JLabel("Score: " + score + " / " + total + " (" + percent + "%)"));
+        panel.add(Box.createVerticalStrut(5));
+        panel.add(new JLabel("Badge: " + badge));
+        panel.add(Box.createVerticalStrut(5));
+        panel.add(new JLabel("Message: " + message));
+
+        JOptionPane.showMessageDialog(this, panel, "Your Quiz Result", JOptionPane.INFORMATION_MESSAGE);
 
         // Show ScorePanel with results
-        mainGUI.getScorePanel().displayResults(score, total, message, badge);
+        mainGUI.getScorePanel().displayResults(score, total);
         mainGUI.switchTo("scores");
     }
 }
+
+
